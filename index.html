@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Partner Activity Submission</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 24px;
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      color: #222;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    h1 {
+      margin-bottom: 24px;
+      color: #1f2937;
+    }
+
+    h2 {
+      margin-top: 0;
+      color: #1f2937;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .section-title {
+      margin-bottom: 18px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid #e5e7eb;
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group.full {
+      grid-column: 1 / -1;
+    }
+
+    label {
+      margin-bottom: 7px;
+      font-weight: bold;
+      color: #374151;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 11px 12px;
+      border: 1px solid #d1d5db;
+      border-radius: 7px;
+      font-size: 14px;
+      background: white;
+    }
+
+    textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.12);
+    }
+
+    .location-detail {
+      margin-top: 12px;
+    }
+
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    button {
+      border: none;
+      border-radius: 7px;
+      padding: 12px 20px;
+      font-size: 14px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    .btn-primary {
+      background: #2563eb;
+      color: white;
+    }
+
+    .btn-success {
+      background: #16a34a;
+      color: white;
+    }
+
+    .btn-warning {
+      background: #f59e0b;
+      color: white;
+    }
+
+    .btn-danger {
+      background: #dc2626;
+      color: white;
+    }
+
+    .btn-secondary {
+      background: #6b7280;
+      color: white;
+    }
+
+    .activity-list {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .activity-item {
+      border: 1px solid #dbe1e8;
+      border-radius: 9px;
+      padding: 16px;
+      background: #f9fafb;
+    }
+
+    .activity-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .activity-title {
+      font-size: 16px;
+      font-weight: bold;
+      color: #111827;
+    }
+
+    .activity-meta {
+      color: #4b5563;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .activity-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 12px;
+    }
+
+    .activity-actions button {
+      padding: 8px 13px;
+      font-size: 12px;
+    }
+
+    .empty-state {
+      padding: 24px;
+      text-align: center;
+      color: #6b7280;
+      border: 1px dashed #cbd5e1;
+      border-radius: 8px;
+    }
+
+    .success-message {
+      display: none;
+      margin-top: 16px;
+      padding: 14px;
+      border-radius: 8px;
+      background: #dcfce7;
+      color: #166534;
+      font-weight: bold;
+    }
+
+    .error-message {
+      display: none;
+      margin-top: 16px;
+      padding: 14px;
+      border-radius: 8px;
+      background: #fee2e2;
+      color: #991b1b;
+      font-weight: bold;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    @media (max-width: 700px) {
+      body {
+        padding: 12px;
+      }
+
+      .card {
+        padding: 16px;
+      }
+
+      .form-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .form-group.full {
+        grid-column: auto;
+      }
+
+      .activity-header {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>Partner Activity Submission</h1>
+
+    <!-- Partner Information -->
+    <div class="card">
+      <div class="section-title">Partner Information</div>
+
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="region">Region *</label>
+
+          <select id="region" required>
+            <option value="">Select Region</option>
+            <option value="BKK">BKK</option>
+            <option value="CEW">CEW</option>
+            <option value="N">N</option>
+            <option value="NE">NE</option>
+            <option value="S">S</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="partner">Partner *</label>
+
+          <select id="partner" required disabled>
+            <option value="">Select Partner</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Activity -->
+    <div class="card">
+      <div class="section-title">
+        <span id="formTitle">Add Activity</span>
+      </div>
+
+      <form id="activityForm">
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="activityType">Activity Type *</label>
+
+            <select id="activityType" required>
+              <option value="">Select Activity Type</option>
+              <option value="Pop up/Roadshow">Pop up/Roadshow</option>
+              <option value="Showroom event">Showroom event</option>
+              <option value="Test Drive/Outdoor event">
+                Test Drive/Outdoor event
+              </option>
+              <option value="Online">Online</option>
+              <option value="Mini motor show">Mini motor show</option>
+              <option value="Billboard">Billboard</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="activityName">Activity Name *</label>
+            <input
+              type="text"
+              id="activityName"
+              placeholder="Enter activity name"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="startDate">Start Date *</label>
+            <input type="date" id="startDate" required />
+          </div>
+
+          <div class="form-group">
+            <label for="endDate">End Date *</label>
+            <input type="date" id="endDate" required />
+          </div>
+
+          <div
+            class="form-group full hidden"
+            id="locationSection"
+          >
+            <label>Location *</label>
+            <div id="locationFields"></div>
+          </div>
+
+          <div class="form-group">
+            <label for="cost">Cost *</label>
+            <input
+              type="number"
+              id="cost"
+              min="0"
+              step="0.01"
+              placeholder="Enter cost"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="leads">Leads Target</label>
+            <input
+              type="number"
+              id="leads"
+              min="0"
+              step="1"
+              placeholder="Enter Leads Target"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="testDrive">Test Drive Target</label>
+            <input
+              type="number"
+              id="testDrive"
+              min="0"
+              step="1"
+              placeholder="Enter Test Drive Target"
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="booking">Booking Target</label>
+            <input
+              type="number"
+              id="booking"
+              min="0"
+              step="1"
+              placeholder="Enter Booking Target"
+            />
+          </div>
+
+          <div class="form-group full">
+            <label for="remark">Remark</label>
+            <textarea
+              id="remark"
+              placeholder="Enter remark"
+            ></textarea>
+          </div>
+        </div>
+
+        <div class="button-row">
+          <button
+            type="submit"
+            class="btn-primary"
+            id="saveActivityButton"
+          >
+            Save Activity
+          </button>
+
+          <button
+            type="button"
+            class="btn-secondary hidden"
+            id="cancelEditButton"
+          >
+            Cancel Edit
+          </button>
+        </div>
+      </form>
+
+      <div class="success-message" id="successMessage"></div>
+      <div class="error-message" id="errorMessage"></div>
+    </div>
+
+    <!-- Saved Activities -->
+    <div class="card">
+      <div class="section-title">Saved Activities</div>
+
+      <div id="activityList" class="activity-list">
+        <div class="empty-state">
+          No activities added yet.
+        </div>
+      </div>
+
+      <div class="button-row">
+        <button
+          type="button"
+          class="btn-success"
+          id="submitAllButton"
+        >
+          Submit All Activities
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const partnerData = {
+      BKK: [
+        "GWM AAG Rangsit",
+        "GWM E.V.S Plus Nonthaburi",
+        "GWM Amorn Ratchada",
+        "GWM PAG Udomsuk",
+        "GWM ITG Auto Navanakorn",
+        "GWM Iconic Ramintra",
+        "GWM Prestige Pathumthani",
+        "GWM Prestige Thanyaburi",
+        "GWM One Theparak",
+        "GWM Charansanitwong",
+        "GWM Bangkok Chan Road",
+        "GWM Ek Ari",
+        "GWM Premier Srinakarin",
+        "GWM Metro Hathairat",
+        "GWM Startrek Suanluang",
+        "GWM V Ultimatecar Bang Bua Thong",
+        "GWM Great One Auto Chaengwattana",
+        "GWM Suvarnabhumi Ladkrabang",
+        "GWM Eaksaha Phahonyothin KM.25",
+        "GWM WEY Suvarnabhumi Central Bangna",
+        "GWM CCC Auto Vacharaphol",
+        "GWM Maporn Lamlukka",
+        "GWM 168 Kanchanaphisek",
+        "GWM Maverick Auto Ramkhamhaeng",
+        "GWM Motor Mall Rama 2",
+        "GWM Phuttmon Sai 4"
+      ],
+
+      CEW: [
+        "GWM Ch.Erawan Kanchanaburi",
+        "GWM Ch.Erawan Ratchaburi",
+        "GWM Ch.Erawan Suphanburi",
+        "GWM Ch.Erawan Nakhonpathom",
+        "GWM PAG Saraburi",
+        "GWM Ek Chonburi",
+        "GWM Ek Pattaya",
+        "GWM Ek Chanthaburi",
+        "GWM Ek Rayong",
+        "GWM Ek Rayong Pluakdaeng",
+        "GWM First Class Motor Chachoengsao",
+        "GWM APM Ayutthaya",
+        "GWM Thairungruang Lopburi",
+        "GWM Tongcharoen Samutsakhon",
+        "GWM Sitthiphan Phetchaburi",
+        "GWM Tara Huahin"
+      ],
+
+      N: [
+        "GWM Angelway Chiangrai",
+        "GWM Angelway Phayao",
+        "GWM M1X Maesod",
+        "GWM M1X Phitsanulok",
+        "GWM P and Y Sukhothai",
+        "GWM PAG Nakhonsawan",
+        "GWM CCC Auto Chiangmai",
+        "GWM CCC Auto Chiangmai Maerim",
+        "GWM CCC Auto Lampang"
+      ],
+
+      NE: [
+        "GWM Pattanachaiyon Loei",
+        "GWM Pijitphet Sakonnakhon",
+        "GWM Sahachai EV Plus Khonkaen",
+        "GWM Teeka Udonthani",
+        "GWM A S Surin",
+        "GWM CCC Auto Roiet",
+        "GWM CCC Auto Ubonratchathani",
+        "GWM Eaksaha Korat",
+        "GWM Eaksaha Plus Buriram",
+        "GWM Mundee Kalasin",
+        "GWM Thaiyont Next Sisaket"
+      ],
+
+      S: [
+        "GWM Chookiat Hatyai",
+        "GWM Chookiat Songkhla",
+        "GWM A.N.N. Pattani",
+        "GWM YAS Yala",
+        "GWM Origin Chumphon",
+        "GWM KT Suratthani",
+        "GWM Anuphas Phuket",
+        "GWM Anuphas Phuket Kathu",
+        "GWM Chookiat Krabi",
+        "GWM Chookiat Trang"
+      ]
+    };
+
+    const mallLocations = [
+      "Big C",
+      "Central",
+      "Fashion Island",
+      "Home Pro",
+      "Lotus",
+      "Makro",
+      "Market Village",
+      "Robinson",
+      "Seacon",
+      "The Mall",
+      "Terminal 21",
+      "Mega Bangna",
+      "The Street",
+      "Future park",
+      "PTT",
+      "Bangchak",
+      "Café",
+      "University",
+      "Other"
+    ];
+
+    const onlineChannels = [
+      "Line",
+      "Facebook",
+      "Google",
+      "Instagram",
+      "Tiktok",
+      "YouTube"
+    ];
+
+    const regionSelect = document.getElementById("region");
+    const partnerSelect = document.getElementById("partner");
+
+    const activityForm = document.getElementById("activityForm");
+    const activityTypeSelect = document.getElementById("activityType");
+    const locationSection = document.getElementById("locationSection");
+    const locationFields = document.getElementById("locationFields");
+
+    const activityList = document.getElementById("activityList");
+    const saveActivityButton = document.getElementById(
+      "saveActivityButton"
+    );
+    const cancelEditButton = document.getElementById(
+      "cancelEditButton"
+    );
+
+    const successMessage = document.getElementById("successMessage");
+    const errorMessage = document.getElementById("errorMessage");
+
+    let savedActivities = [];
+    let editingIndex = -1;
+
+    regionSelect.addEventListener("change", function () {
+      const selectedRegion = this.value;
+
+      partnerSelect.innerHTML =
+        '<option value="">Select Partner</option>';
+
+      partnerSelect.disabled = true;
+
+      if (!selectedRegion || !partnerData[selectedRegion]) {
+        return;
+      }
+
+      partnerData[selectedRegion].forEach(function (partner) {
+        const option = document.createElement("option");
+        option.value = partner;
+        option.textContent = partner;
+        partnerSelect.appendChild(option);
+      });
+
+      partnerSelect.disabled = false;
+    });
+
+    activityTypeSelect.addEventListener("change", function () {
+      renderLocationFields(this.value);
+    });
+
+    function renderLocationFields(activityType, selectedData = {}) {
+      locationFields.innerHTML = "";
+      locationSection.classList.add("hidden");
+
+      if (!activityType) {
+        return;
+      }
+
+      locationSection.classList.remove("hidden");
+
+      if (
+        activityType === "Pop up/Roadshow" ||
+        activityType === "Mini motor show"
+      ) {
+        locationFields.innerHTML = `
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="mallLocation">Mall / Location *</label>
+              <select id="mallLocation" required>
+                <option value="">Select Mall / Location</option>
+                ${mallLocations
+                  .map(
+                    (location) =>
+                      `<option value="${location}">${location}</option>`
+                  )
+                  .join("")}
+              </select>
+            </div>
+
+            <div class="form-group" id="mallBranchGroup">
+              <label for="mallBranch">Branch / Area *</label>
+              <input
+                type="text"
+                id="mallBranch"
+                placeholder="Enter branch or area"
+                required
+              />
+            </div>
+
+            <div class="form-group hidden" id="otherLocationGroup">
+              <label for="otherLocation">Other Location *</label>
+              <input
+                type="text"
+                id="otherLocation"
+                placeholder="Enter location"
+              />
+            </div>
+          </div>
+        `;
+
+        const mallLocation = document.getElementById("mallLocation");
+        const mallBranch = document.getElementById("mallBranch");
+        const mallBranchGroup =
+          document.getElementById("mallBranchGroup");
+        const otherLocationGroup =
+          document.getElementById("otherLocationGroup");
+        const otherLocation =
+          document.getElementById("otherLocation");
+
+        mallLocation.addEventListener("change", function () {
+          if (this.value === "Other") {
+            mallBranchGroup.classList.add("hidden");
+            otherLocationGroup.classList.remove("hidden");
+
+            mallBranch.required = false;
+            otherLocation.required = true;
+          } else {
+            mallBranchGroup.classList.remove("hidden");
+            otherLocationGroup.classList.add("hidden");
+
+            mallBranch.required = true;
+            otherLocation.required = false;
+          }
+        });
+
+        if (selectedData.mallLocation) {
+          mallLocation.value = selectedData.mallLocation;
+          mallLocation.dispatchEvent(new Event("change"));
+        }
+
+        if (selectedData.mallBranch) {
+          mallBranch.value = selectedData.mallBranch;
+        }
+
+        if (selectedData.otherLocation) {
+          otherLocation.value = selectedData.otherLocation;
+        }
+      }
+
+      if (activityType === "Showroom event") {
+        const selectedRegion = regionSelect.value;
+        const showroomList = partnerData[selectedRegion] || [];
+
+        locationFields.innerHTML = `
+          <div class="form-group">
+            <label for="showroomLocation">Showroom *</label>
+            <select id="showroomLocation" required>
+              <option value="">Select Showroom</option>
+              ${showroomList
+                .map(
+                  (showroom) =>
+                    `<option value="${showroom}">${showroom}</option>`
+                )
+                .join("")}
+            </select>
+          </div>
+        `;
+
+        if (selectedData.showroomLocation) {
+          document.getElementById("showroomLocation").value =
+            selectedData.showroomLocation;
+        }
+      }
+
+      if (activityType === "Test Drive/Outdoor event") {
+        locationFields.innerHTML = `
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="testDriveLocationType">
+                Location Type *
+              </label>
+
+              <select id="testDriveLocationType" required>
+                <option value="">Select Location Type</option>
+                <option value="Showroom">Showroom</option>
+                <option value="Outdoor">Outdoor</option>
+              </select>
+            </div>
+
+            <div class="form-group hidden" id="outdoorLocationGroup">
+              <label for="outdoorLocation">
+                Outdoor Location *
+              </label>
+
+              <input
+                type="text"
+                id="outdoorLocation"
+                placeholder="Enter outdoor location"
+              />
+            </div>
+          </div>
+        `;
+
+        const locationType = document.getElementById(
+          "testDriveLocationType"
+        );
+
+        const outdoorGroup = document.getElementById(
+          "outdoorLocationGroup"
+        );
+
+        const outdoorLocation = document.getElementById(
+          "outdoorLocation"
+        );
+
+        locationType.addEventListener("change", function () {
+          if (this.value === "Outdoor") {
+            outdoorGroup.classList.remove("hidden");
+            outdoorLocation.required = true;
+          } else {
+            outdoorGroup.classList.add("hidden");
+            outdoorLocation.required = false;
+          }
+        });
+
+        if (selectedData.locationType) {
+          locationType.value = selectedData.locationType;
+          locationType.dispatchEvent(new Event("change"));
+        }
+
+        if (selectedData.outdoorLocation) {
+          outdoorLocation.value = selectedData.outdoorLocation;
+        }
+      }
+
+      if (activityType === "Online") {
+        locationFields.innerHTML = `
+          <div class="form-group">
+            <label for="onlineChannel">Online Channel *</label>
+            <select id="onlineChannel" required>
+              <option value="">Select Online Channel</option>
+              ${onlineChannels
+                .map(
+                  (channel) =>
+                    `<option value="${channel}">${channel}</option>`
+                )
+                .join("")}
+            </select>
+          </div>
+        `;
+
+        if (selectedData.onlineChannel) {
+          document.getElementById("onlineChannel").value =
+            selectedData.onlineChannel;
+        }
+      }
+
+      if (activityType === "Billboard") {
+        locationFields.innerHTML = `
+          <div class="form-group">
+            <label for="billboardLocation">
+              Billboard Installation Location *
+            </label>
+
+            <input
+              type="text"
+              id="billboardLocation"
+              placeholder="Enter billboard installation location"
+              required
+            />
+          </div>
+        `;
+
+        if (selectedData.billboardLocation) {
+          document.getElementById("billboardLocation").value =
+            selectedData.billboardLocation;
+        }
+      }
+    }
+
+    function getLocationData() {
+      const activityType = activityTypeSelect.value;
+
+      if (
+        activityType === "Pop up/Roadshow" ||
+        activityType === "Mini motor show"
+      ) {
+        const mallLocation =
+          document.getElementById("mallLocation")?.value || "";
+
+        if (mallLocation === "Other") {
+          return {
+            location: "Other",
+            detail:
+              document.getElementById("otherLocation")?.value || ""
+          };
+        }
+
+        return {
+          location: mallLocation,
+          detail:
+            document.getElementById("mallBranch")?.value || ""
+        };
+      }
+
+      if (activityType === "Showroom event") {
+        return {
+          location: "Showroom",
+          detail:
+            document.getElementById("showroomLocation")?.value || ""
+        };
+      }
+
+      if (activityType === "Test Drive/Outdoor event") {
+        const locationType =
+          document.getElementById("testDriveLocationType")?.value ||
+          "";
+
+        if (locationType === "Outdoor") {
+          return {
+            location: "Outdoor",
+            detail:
+              document.getElementById("outdoorLocation")?.value || ""
+          };
+        }
+
+        return {
+          location: "Showroom",
+          detail: ""
+        };
+      }
+
+      if (activityType === "Online") {
+        return {
+          location: "Online",
+          detail:
+            document.getElementById("onlineChannel")?.value || ""
+        };
+      }
+
+      if (activityType === "Billboard") {
+        return {
+          location: "Billboard",
+          detail:
+            document.getElementById("billboardLocation")?.value || ""
+        };
+      }
+
+      return {
+        location: "",
+        detail: ""
+      };
+    }
+
+    function validateActivity() {
+      if (!regionSelect.value) {
+        return "Please select Region.";
+      }
+
+      if (!partnerSelect.value) {
+        return "Please select Partner.";
+      }
+
+      if (!activityTypeSelect.value) {
+        return "Please select Activity Type.";
+      }
+
+      if (!document.getElementById("activityName").value.trim()) {
+        return "Please enter Activity Name.";
+      }
+
+      const startDate = document.getElementById("startDate").value;
+      const endDate = document.getElementById("endDate").value;
+
+      if (!startDate || !endDate) {
+        return "Please select Start Date and End Date.";
+      }
+
+      if (endDate < startDate) {
+        return "End Date cannot be earlier than Start Date.";
+      }
+
+      const locationData = getLocationData();
+
+      if (!locationData.location) {
+        return "Please select Location.";
+      }
+
+      if (!locationData.detail) {
+        return "Please complete the location details.";
+      }
+
+      const cost = document.getElementById("cost").value;
+
+      if (cost === "" || Number(cost) < 0) {
+        return "Please enter a valid Cost.";
+      }
+
+      return "";
+    }
+
+    function collectActivityData() {
+      const locationData = getLocationData();
+
+      return {
+        id:
+          editingIndex >= 0
+            ? savedActivities[editingIndex].id
+            : Date.now(),
+
+        region: regionSelect.value,
+        partner: partnerSelect.value,
+
+        activityType: activityTypeSelect.value,
+        activityName: document
+          .getElementById("activityName")
+          .value
+          .trim(),
+
+        location: locationData.location,
+        locationDetail: locationData.detail,
+
+        startDate: document.getElementById("startDate").value,
+        endDate: document.getElementById("endDate").value,
+
+        cost: Number(document.getElementById("cost").value),
+
+        leadsTarget:
+          Number(document.getElementById("leads").value) || 0,
+
+        testDriveTarget:
+          Number(document.getElementById("testDrive").value) || 0,
+
+        bookingTarget:
+          Number(document.getElementById("booking").value) || 0,
+
+        remark: document.getElementById("remark").value.trim(),
+
+        updatedAt: new Date().toISOString()
+      };
+    }
+
+    activityForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      hideMessages();
+
+      const validationMessage = validateActivity();
+
+      if (validationMessage) {
+        showError(validationMessage);
+        return;
+      }
+
+      const activityData = collectActivityData();
+
+      if (editingIndex >= 0) {
+        savedActivities[editingIndex] = activityData;
+        showSuccess("Activity updated successfully.");
+      } else {
+        savedActivities.push(activityData);
+        showSuccess("Activity saved successfully.");
+      }
+
+      renderActivities();
+      resetActivityForm();
+    });
+
+    function renderActivities() {
+      activityList.innerHTML = "";
+
+      if (savedActivities.length === 0) {
+        activityList.innerHTML = `
+          <div class="empty-state">
+            No activities added yet.
+          </div>
+        `;
+        return;
+      }
+
+      savedActivities.forEach(function (activity, index) {
+        const item = document.createElement("div");
+        item.className = "activity-item";
+
+        const title = document.createElement("div");
+        title.className = "activity-title";
+        title.textContent =
+          `${index + 1}. ${activity.activityName}`;
+
+        const meta = document.createElement("div");
+        meta.className = "activity-meta";
+
+        meta.innerHTML = `
+          <div><strong>Type:</strong> ${escapeHtml(
+            activity.activityType
+          )}</div>
+          <div><strong>Region:</strong> ${escapeHtml(
+            activity.region
+          )}</div>
+          <div><strong>Partner:</strong> ${escapeHtml(
+            activity.partner
+          )}</div>
+          <div><strong>Location:</strong> ${escapeHtml(
+            activity.location
+          )} - ${escapeHtml(activity.locationDetail)}</div>
+          <div><strong>Date:</strong> ${escapeHtml(
+            activity.startDate
+          )} to ${escapeHtml(activity.endDate)}</div>
+          <div><strong>Cost:</strong> ${activity.cost.toLocaleString()}</div>
+          <div><strong>Leads Target:</strong> ${
+            activity.leadsTarget
+          }</div>
+          <div><strong>Test Drive Target:</strong> ${
+            activity.testDriveTarget
+          }</div>
+          <div><strong>Booking Target:</strong> ${
+            activity.bookingTarget
+          }</div>
+          <div><strong>Remark:</strong> ${escapeHtml(
+            activity.remark || "-"
+          )}</div>
+        `;
+
+        const actions = document.createElement("div");
+        actions.className = "activity-actions";
+
+        const editButton = document.createElement("button");
+        editButton.className = "btn-warning";
+        editButton.textContent = "Edit";
+        editButton.addEventListener("click", function () {
+          editActivity(index);
+        });
+
+        const deleteButton = document.createElement("button");
+        deleteButton.className = "btn-danger";
+        deleteButton.textContent = "Delete";
+        deleteButton.addEventListener("click", function () {
+          deleteActivity(index);
+        });
+
+        actions.appendChild(editButton);
+        actions.appendChild(deleteButton);
+
+        item.appendChild(title);
+        item.appendChild(meta);
+        item.appendChild(actions);
+
+        activityList.appendChild(item);
+      });
+    }
+
+    function editActivity(index) {
+      const activity = savedActivities[index];
+
+      editingIndex = index;
+
+      regionSelect.value = activity.region;
+      regionSelect.dispatchEvent(new Event("change"));
+
+      partnerSelect.value = activity.partner;
+
+      activityTypeSelect.value = activity.activityType;
+
+      document.getElementById("activityName").value =
+        activity.activityName;
+
+      document.getElementById("startDate").value =
+        activity.startDate;
+
+      document.getElementById("endDate").value =
+        activity.endDate;
+
+      document.getElementById("cost").value =
+        activity.cost;
+
+      document.getElementById("leads").value =
+        activity.leadsTarget;
+
+      document.getElementById("testDrive").value =
+        activity.testDriveTarget;
+
+      document.getElementById("booking").value =
+        activity.bookingTarget;
+
+      document.getElementById("remark").value =
+        activity.remark;
+
+      const selectedData = {
+        mallLocation: activity.location,
+        mallBranch:
+          activity.location !== "Other"
+            ? activity.locationDetail
+            : "",
+        otherLocation:
+          activity.location === "Other"
+            ? activity.locationDetail
+            : "",
+
+        showroomLocation:
+          activity.location === "Showroom"
+            ? activity.locationDetail
+            : "",
+
+        locationType: activity.location,
+        outdoorLocation:
+          activity.location === "Outdoor"
+            ? activity.locationDetail
+            : "",
+
+        onlineChannel:
+          activity.location === "Online"
+            ? activity.locationDetail
+            : "",
+
+        billboardLocation:
+          activity.location === "Billboard"
+            ? activity.locationDetail
+            : ""
+      };
+
+      renderLocationFields(
+        activity.activityType,
+        selectedData
+      );
+
+      document.getElementById("formTitle").textContent =
+        "Edit Activity";
+
+      saveActivityButton.textContent = "Update Activity";
+      cancelEditButton.classList.remove("hidden");
+
+      window.scrollTo({
+        top: document.querySelector(".card").offsetTop,
+        behavior: "smooth"
+      });
+    }
+
+    function deleteActivity(index) {
+      const activity = savedActivities[index];
+
+      const confirmed = confirm(
+        `Are you sure you want to delete "${activity.activityName}"?`
+      );
+
+      if (!confirmed) {
+        return;
+      }
+
+      savedActivities.splice(index, 1);
+
+      renderActivities();
+
+      showSuccess("Activity deleted successfully.");
+    }
+
+    cancelEditButton.addEventListener("click", function () {
+      resetActivityForm();
+    });
+
+    function resetActivityForm() {
+      editingIndex = -1;
+
+      activityForm.reset();
+
+      locationFields.innerHTML = "";
+      locationSection.classList.add("hidden");
+
+      document.getElementById("formTitle").textContent =
+        "Add Activity";
+
+      saveActivityButton.textContent = "Save Activity";
+      cancelEditButton.classList.add("hidden");
+    }
+
+    document
+      .getElementById("submitAllButton")
+      .addEventListener("click", function () {
+        hideMessages();
+
+        if (savedActivities.length === 0) {
+          showError("Please add at least one activity.");
+          return;
+        }
+
+        const submissionData = {
+          submittedAt: new Date().toISOString(),
+          region: regionSelect.value,
+          partner: partnerSelect.value,
+          activities: savedActivities
+        };
+
+        localStorage.setItem(
+          "partnerActivityData",
+          JSON.stringify(submissionData)
+        );
+
+        showSuccess(
+          `Successfully submitted ${savedActivities.length} activities.`
+        );
+
+        console.log("Submitted Data:", submissionData);
+      });
+
+    function showSuccess(message) {
+      successMessage.textContent = message;
+      successMessage.style.display = "block";
+      errorMessage.style.display = "none";
+    }
+
+    function showError(message) {
+      errorMessage.textContent = message;
+      errorMessage.style.display = "block";
+      successMessage.style.display = "none";
+    }
+
+    function hideMessages() {
+      successMessage.style.display = "none";
+      errorMessage.style.display = "none";
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    renderActivities();
+  </script>
+</body>
+</html>
