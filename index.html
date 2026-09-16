@@ -4,7 +4,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Partner Activity Form</title>
+
+  <title>Partner Activity Planning Form</title>
 
   <style>
     * {
@@ -21,16 +22,16 @@
 
     .container {
       width: 100%;
-      max-width: 1200px;
+      max-width: 1250px;
       margin: auto;
       background: #ffffff;
       padding: 32px;
-      border-radius: 16px;
-      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+      border-radius: 18px;
+      box-shadow: 0 4px 20px rgba(15, 23, 42, 0.08);
     }
 
     h1 {
-      margin: 0 0 28px;
+      margin: 0 0 8px;
       color: #172554;
       font-size: 30px;
     }
@@ -42,15 +43,21 @@
     }
 
     h3 {
-      margin: 0;
-      color: #1e40af;
+      margin: 0 0 16px;
+      color: #1e3a8a;
       font-size: 20px;
+    }
+
+    .subtitle {
+      margin-bottom: 28px;
+      color: #64748b;
+      font-size: 15px;
     }
 
     .section {
       margin-bottom: 30px;
       padding-bottom: 28px;
-      border-bottom: 1px solid #e5e7eb;
+      border-bottom: 1px solid #e2e8f0;
     }
 
     .form-grid {
@@ -71,8 +78,13 @@
 
     label {
       margin-bottom: 8px;
+      color: #334155;
+      font-size: 15px;
       font-weight: 700;
-      color: #1e3a5f;
+    }
+
+    .required {
+      color: #dc2626;
     }
 
     input,
@@ -101,74 +113,44 @@
       box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
     }
 
-    input:disabled,
-    select:disabled {
-      background: #f1f5f9;
-      cursor: not-allowed;
+    .month-box {
+      padding: 20px;
+      border: 1px solid #bfdbfe;
+      border-radius: 12px;
+      background: #eff6ff;
     }
 
-    .required {
-      color: #dc2626;
+    .month-box label {
+      color: #1e40af;
     }
 
-    .hidden {
-      display: none !important;
+    .month-info {
+      margin-top: 10px;
+      color: #475569;
+      font-size: 14px;
+      line-height: 1.5;
     }
 
     .location-box {
-      padding: 18px;
+      padding: 20px;
+      border: 1px solid #dbeafe;
       border-radius: 12px;
-      background: #eff6ff;
-      border: 1px solid #bfdbfe;
-    }
-
-    .month-box {
-      padding: 18px;
-      border-radius: 12px;
-      background: #f8fafc;
-      border: 1px solid #cbd5e1;
-    }
-
-    .month-title {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-bottom: 18px;
-    }
-
-    .month-status {
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 700;
-      background: #dbeafe;
-      color: #1d4ed8;
-    }
-
-    .month-status.completed {
-      background: #dcfce7;
-      color: #166534;
-    }
-
-    .month-status.locked {
-      background: #e5e7eb;
-      color: #64748b;
+      background: #f8fbff;
     }
 
     .button-row {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 12px;
       margin-top: 22px;
     }
 
     button {
       min-height: 44px;
-      padding: 11px 18px;
-      border: none;
-      border-radius: 8px;
+      padding: 11px 20px;
+      border: 0;
+      border-radius: 9px;
+      color: #ffffff;
       font-size: 14px;
       font-weight: 700;
       cursor: pointer;
@@ -179,86 +161,160 @@
     }
 
     button:disabled {
-      opacity: 0.5;
       cursor: not-allowed;
+      opacity: 0.5;
     }
 
     .btn-primary {
       background: #1d4ed8;
-      color: #ffffff;
     }
 
     .btn-success {
       background: #15803d;
-      color: #ffffff;
     }
 
     .btn-warning {
       background: #d97706;
-      color: #ffffff;
     }
 
     .btn-danger {
       background: #dc2626;
-      color: #ffffff;
     }
 
     .btn-secondary {
       background: #64748b;
-      color: #ffffff;
+    }
+
+    .btn-purple {
+      background: #7c3aed;
+    }
+
+    .hidden {
+      display: none !important;
     }
 
     .editing-label {
       margin-bottom: 18px;
       padding: 12px 16px;
-      border-radius: 8px;
-      background: #fef3c7;
       border: 1px solid #fcd34d;
+      border-radius: 9px;
+      background: #fef3c7;
       color: #92400e;
       font-weight: 700;
     }
 
-    .activity-list {
+    .status-message {
+      display: none;
       margin-top: 18px;
+      padding: 14px 16px;
+      border-radius: 9px;
+      font-weight: 700;
+      line-height: 1.5;
+    }
+
+    .status-success {
+      display: block;
+      border: 1px solid #86efac;
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .status-error {
+      display: block;
+      border: 1px solid #fca5a5;
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .month-section {
+      margin-bottom: 26px;
+      border: 1px solid #cbd5e1;
+      border-radius: 14px;
+      overflow: hidden;
+      background: #ffffff;
+    }
+
+    .month-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 16px 20px;
+      background: #1e3a8a;
+      color: #ffffff;
+    }
+
+    .month-title {
+      font-size: 19px;
+      font-weight: 700;
+    }
+
+    .month-status {
+      padding: 5px 10px;
+      border-radius: 20px;
+      background: #dbeafe;
+      color: #1e40af;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .month-status.completed {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .month-content {
+      padding: 18px;
     }
 
     .activity-card {
-      margin-bottom: 16px;
-      padding: 20px;
-      border: 1px solid #d1d5db;
-      border-radius: 12px;
-      background: #ffffff;
+      margin-bottom: 14px;
+      padding: 18px;
+      border: 1px solid #dbe2ea;
+      border-radius: 11px;
+      background: #f8fafc;
+    }
+
+    .activity-card:last-child {
+      margin-bottom: 0;
     }
 
     .activity-card-header {
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
       gap: 12px;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
 
-    .activity-card-title {
+    .activity-title {
       color: #1e3a8a;
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 700;
     }
 
-    .activity-card-actions {
+    .activity-actions {
       display: flex;
       flex-wrap: wrap;
       gap: 8px;
     }
 
+    .activity-actions button {
+      min-height: 34px;
+      padding: 7px 12px;
+      font-size: 12px;
+    }
+
     .activity-detail-grid {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px 20px;
+      gap: 10px 22px;
     }
 
     .detail-item {
       font-size: 14px;
       line-height: 1.6;
+      overflow-wrap: anywhere;
     }
 
     .detail-item strong {
@@ -266,70 +322,36 @@
     }
 
     .empty-message {
-      padding: 20px;
+      padding: 22px;
       border: 1px dashed #cbd5e1;
       border-radius: 10px;
+      color: #64748b;
       text-align: center;
-      color: #64748b;
-      background: #f8fafc;
-    }
-
-    .status-message {
-      display: none;
-      margin-top: 18px;
-      padding: 14px 16px;
-      border-radius: 8px;
-      font-weight: 700;
-    }
-
-    .status-success {
-      display: block;
-      color: #166534;
-      background: #dcfce7;
-      border: 1px solid #86efac;
-    }
-
-    .status-error {
-      display: block;
-      color: #991b1b;
-      background: #fee2e2;
-      border: 1px solid #fca5a5;
-    }
-
-    .locked-month {
-      opacity: 0.65;
-      background: #f8fafc;
-    }
-
-    .locked-message {
-      color: #64748b;
-      font-size: 14px;
-      line-height: 1.6;
     }
 
     .summary-box {
       display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 12px;
-      margin-top: 18px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 24px;
     }
 
     .summary-item {
-      padding: 14px;
-      border-radius: 10px;
-      background: #f8fafc;
-      border: 1px solid #e2e8f0;
+      padding: 18px;
+      border: 1px solid #dbeafe;
+      border-radius: 12px;
+      background: #eff6ff;
     }
 
     .summary-label {
-      color: #64748b;
+      margin-bottom: 8px;
+      color: #475569;
       font-size: 13px;
     }
 
     .summary-value {
-      margin-top: 5px;
       color: #1e3a8a;
-      font-size: 24px;
+      font-size: 25px;
       font-weight: 700;
     }
 
@@ -352,9 +374,14 @@
         grid-column: auto;
       }
 
+      .month-header,
       .activity-card-header {
         align-items: flex-start;
         flex-direction: column;
+      }
+
+      h1 {
+        font-size: 25px;
       }
     }
   </style>
@@ -362,9 +389,12 @@
 
 <body>
   <div class="container">
-    <h1>Partner Activity Form</h1>
+    <h1>Partner Activity Planning Form</h1>
 
-    <!-- Partner Information -->
+    <div class="subtitle">
+      Monthly activity planning from October 2026 to December 2027
+    </div>
+
     <div class="section">
       <h2>Partner Information</h2>
 
@@ -393,20 +423,30 @@
             <option value="">Select Partner</option>
           </select>
         </div>
+      </div>
+    </div>
 
+    <div class="section">
+      <h2>Planning Month</h2>
+
+      <div class="month-box">
         <div class="field">
           <label for="planningMonth">
-            Planning Month <span class="required">*</span>
+            Select Planning Month <span class="required">*</span>
           </label>
 
           <select id="planningMonth" required>
             <option value="">Select Month</option>
           </select>
         </div>
+
+        <div class="month-info">
+          You can select any month from October 2026 to December 2027.
+          Activities will be grouped by the selected planning month.
+        </div>
       </div>
     </div>
 
-    <!-- Activity Form -->
     <div class="section">
       <h2>Add Activity</h2>
 
@@ -435,26 +475,47 @@
           </div>
 
           <div class="field">
-            <label for="location">
-              Location <span class="required">*</span>
-            </label>
-
-            <select id="location" required>
-              <option value="">Select Location</option>
-            </select>
-          </div>
-
-          <div class="field full-width hidden" id="locationDetailWrapper">
-            <label for="locationDetail">
-              Branch / Area / Location Detail
-              <span class="required">*</span>
+            <label for="cost">
+              Cost <span class="required">*</span>
             </label>
 
             <input
-              type="text"
-              id="locationDetail"
-              placeholder="Enter branch, area or location"
+              type="number"
+              id="cost"
+              min="0"
+              step="0.01"
+              placeholder="Enter cost"
+              required
             />
+          </div>
+
+          <div class="full-width location-box">
+            <div class="field">
+              <label for="location">
+                Location <span class="required">*</span>
+              </label>
+
+              <select id="location" required>
+                <option value="">Select Location</option>
+              </select>
+            </div>
+
+            <div
+              class="field hidden"
+              id="locationDetailWrapper"
+              style="margin-top: 18px;"
+            >
+              <label for="locationDetail">
+                Branch / Area / Location Detail
+                <span class="required">*</span>
+              </label>
+
+              <input
+                type="text"
+                id="locationDetail"
+                placeholder="Enter location detail"
+              />
+            </div>
           </div>
 
           <div class="field">
@@ -474,22 +535,9 @@
           </div>
 
           <div class="field">
-            <label for="cost">
-              Cost <span class="required">*</span>
+            <label for="leadsTarget">
+              Leads Target
             </label>
-
-            <input
-              type="number"
-              id="cost"
-              min="0"
-              step="0.01"
-              placeholder="Enter cost"
-              required
-            />
-          </div>
-
-          <div class="field">
-            <label for="leadsTarget">Leads Target</label>
 
             <input
               type="number"
@@ -500,7 +548,9 @@
           </div>
 
           <div class="field">
-            <label for="testDriveTarget">Test Drive Target</label>
+            <label for="testDriveTarget">
+              Test Drive Target
+            </label>
 
             <input
               type="number"
@@ -511,7 +561,9 @@
           </div>
 
           <div class="field">
-            <label for="bookingTarget">Booking Target</label>
+            <label for="bookingTarget">
+              Booking Target
+            </label>
 
             <input
               type="number"
@@ -522,7 +574,9 @@
           </div>
 
           <div class="field full-width">
-            <label for="remark">Remark</label>
+            <label for="remark">
+              Remark
+            </label>
 
             <textarea
               id="remark"
@@ -532,7 +586,11 @@
         </div>
 
         <div class="button-row">
-          <button type="submit" class="btn-primary" id="saveButton">
+          <button
+            type="submit"
+            class="btn-primary"
+            id="saveButton"
+          >
             Save Activity
           </button>
 
@@ -546,7 +604,7 @@
 
           <button
             type="button"
-            class="btn-success"
+            class="btn-purple"
             id="finishMonthButton"
           >
             Finish Month & Continue
@@ -554,7 +612,7 @@
 
           <button
             type="button"
-            class="btn-primary"
+            class="btn-success"
             id="submitAllButton"
           >
             Submit All Activities
@@ -565,20 +623,52 @@
       <div id="statusMessage" class="status-message"></div>
     </div>
 
-    <!-- Monthly Activities -->
     <div class="section">
-      <h2>Monthly Activity Planning</h2>
+      <h2>Planning Summary</h2>
 
-      <div id="monthlyActivities"></div>
+      <div class="summary-box">
+        <div class="summary-item">
+          <div class="summary-label">Total Activities</div>
+          <div class="summary-value" id="totalActivities">0</div>
+        </div>
+
+        <div class="summary-item">
+          <div class="summary-label">Total Cost</div>
+          <div class="summary-value" id="totalCost">0</div>
+        </div>
+
+        <div class="summary-item">
+          <div class="summary-label">Leads Target</div>
+          <div class="summary-value" id="totalLeads">0</div>
+        </div>
+
+        <div class="summary-item">
+          <div class="summary-label">Booking Target</div>
+          <div class="summary-value" id="totalBookings">0</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>Monthly Activities</h2>
+
+      <div id="monthlyActivities">
+        <div class="empty-message">
+          No activities saved yet.
+        </div>
+      </div>
     </div>
   </div>
 
   <script>
     /*
-      ใส่ Google Apps Script Web App URL ตรงนี้
+      Replace this URL with your Google Apps Script Web App URL.
     */
     const GOOGLE_SCRIPT_URL =
       "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL";
+
+    const START_MONTH = "2026-10";
+    const END_MONTH = "2027-12";
 
     const partnerData = {
       BKK: [
@@ -683,7 +773,7 @@
       "Terminal 21",
       "Mega Bangna",
       "The Street",
-      "Future park",
+      "Future Park",
       "PTT",
       "Bangchak",
       "Café",
@@ -705,512 +795,209 @@
       "Outdoor"
     ];
 
+    const monthNames = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ];
+
+    let savedActivities = JSON.parse(
+      localStorage.getItem("partnerActivityPlanningData") || "[]"
+    );
+
+    let completedMonths = JSON.parse(
+      localStorage.getItem("partnerActivityCompletedMonths") || "[]"
+    );
+
+    let editingIndex = -1;
+
     const regionInput = document.getElementById("region");
     const partnerInput = document.getElementById("partner");
     const planningMonthInput = document.getElementById("planningMonth");
 
-    const activityForm = document.getElementById("activityForm");
-    const activityTypeInput = document.getElementById("activityType");
-    const locationInput = document.getElementById("location");
-    const locationDetailInput = document.getElementById("locationDetail");
+    const activityTypeInput =
+      document.getElementById("activityType");
+
+    const locationInput =
+      document.getElementById("location");
+
+    const locationDetailInput =
+      document.getElementById("locationDetail");
+
     const locationDetailWrapper =
       document.getElementById("locationDetailWrapper");
 
-    const startDateInput = document.getElementById("startDate");
-    const endDateInput = document.getElementById("endDate");
-    const costInput = document.getElementById("cost");
-    const leadsTargetInput = document.getElementById("leadsTarget");
+    const startDateInput =
+      document.getElementById("startDate");
+
+    const endDateInput =
+      document.getElementById("endDate");
+
+    const costInput =
+      document.getElementById("cost");
+
+    const leadsTargetInput =
+      document.getElementById("leadsTarget");
+
     const testDriveTargetInput =
       document.getElementById("testDriveTarget");
+
     const bookingTargetInput =
       document.getElementById("bookingTarget");
-    const remarkInput = document.getElementById("remark");
 
-    const saveButton = document.getElementById("saveButton");
+    const remarkInput =
+      document.getElementById("remark");
+
+    const activityForm =
+      document.getElementById("activityForm");
+
+    const saveButton =
+      document.getElementById("saveButton");
+
     const cancelEditButton =
       document.getElementById("cancelEditButton");
+
     const finishMonthButton =
       document.getElementById("finishMonthButton");
+
     const submitAllButton =
       document.getElementById("submitAllButton");
 
     const editingLabel =
       document.getElementById("editingLabel");
-    const monthlyActivitiesContainer =
-      document.getElementById("monthlyActivities");
+
     const statusMessage =
       document.getElementById("statusMessage");
 
-    let savedActivities = JSON.parse(
-      localStorage.getItem("partnerActivityData") || "[]"
-    );
+    const monthlyActivitiesContainer =
+      document.getElementById("monthlyActivities");
 
-    let selectedPlanningMonth = "";
-    let editingId = null;
-    let completedMonths = JSON.parse(
-      localStorage.getItem("partnerCompletedMonths") || "[]"
-    );
+    const totalActivitiesElement =
+      document.getElementById("totalActivities");
+
+    const totalCostElement =
+      document.getElementById("totalCost");
+
+    const totalLeadsElement =
+      document.getElementById("totalLeads");
+
+    const totalBookingsElement =
+      document.getElementById("totalBookings");
 
     function generateId() {
-      return (
-        "ACT-" +
-        Date.now() +
-        "-" +
-        Math.random().toString(36).substring(2, 8)
-      );
+      return Date.now().toString(36) +
+        Math.random().toString(36).substring(2);
+    }
+
+    function formatNumber(value) {
+      return Number(value || 0).toLocaleString("en-US");
+    }
+
+    function escapeHtml(value) {
+      return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
     }
 
     function saveToLocalStorage() {
       localStorage.setItem(
-        "partnerActivityData",
+        "partnerActivityPlanningData",
         JSON.stringify(savedActivities)
       );
 
       localStorage.setItem(
-        "partnerCompletedMonths",
+        "partnerActivityCompletedMonths",
         JSON.stringify(completedMonths)
       );
     }
 
-    function getMonthValue(date) {
-      return date.toISOString().substring(0, 7);
+    function showStatus(message, type) {
+      statusMessage.textContent = message;
+      statusMessage.className =
+        "status-message " +
+        (type === "success"
+          ? "status-success"
+          : "status-error");
+    }
+
+    function hideStatus() {
+      statusMessage.textContent = "";
+      statusMessage.className = "status-message";
     }
 
     function getMonthLabel(monthValue) {
-      const date = new Date(monthValue + "-01T00:00:00");
+      const parts = monthValue.split("-").map(Number);
+      const year = parts[0];
+      const month = parts[1];
 
-      return date.toLocaleDateString("en-US", {
-        month: "long",
-        year: "numeric"
-      });
+      return monthNames[month - 1] + " " + year;
     }
 
-    function getPlanningMonths() {
-      if (!selectedPlanningMonth) {
-        return [];
-      }
-
-      const [year, month] = selectedPlanningMonth
-        .split("-")
-        .map(Number);
-
+    function getAllPlanningMonths() {
       const months = [];
 
-      for (let i = 0; i < 3; i++) {
-        const date = new Date(year, month - 1 + i, 1);
+      let current = new Date(2026, 9, 1);
+      const end = new Date(2027, 11, 1);
 
+      while (current <= end) {
         const value =
-          date.getFullYear() +
+          current.getFullYear() +
           "-" +
-          String(date.getMonth() + 1).padStart(2, "0");
+          String(current.getMonth() + 1).padStart(2, "0");
 
         months.push({
-          value,
+          value: value,
           label: getMonthLabel(value)
         });
+
+        current = new Date(
+          current.getFullYear(),
+          current.getMonth() + 1,
+          1
+        );
       }
 
       return months;
     }
 
     function populatePlanningMonths() {
-      const today = new Date();
-
       planningMonthInput.innerHTML =
         '<option value="">Select Month</option>';
 
-      for (let i = 0; i < 3; i++) {
-        const date = new Date(
-          today.getFullYear(),
-          today.getMonth() + i,
-          1
-        );
-
-        const value =
-          date.getFullYear() +
-          "-" +
-          String(date.getMonth() + 1).padStart(2, "0");
-
+      getAllPlanningMonths().forEach(function (month) {
         const option = document.createElement("option");
 
-        option.value = value;
-        option.textContent = getMonthLabel(value);
+        option.value = month.value;
+        option.textContent = month.label;
 
         planningMonthInput.appendChild(option);
-      }
-    }
-
-    function getVisibleMonths() {
-      const months = getPlanningMonths();
-
-      if (months.length === 0) {
-        return [];
-      }
-
-      let visibleCount = 1;
-
-      for (let i = 0; i < months.length - 1; i++) {
-        const currentMonth = months[i].value;
-
-        const hasActivity = savedActivities.some(
-          activity =>
-            activity.planningMonth === currentMonth
-        );
-
-        const isCompleted = completedMonths.includes(
-          currentMonth
-        );
-
-        if (hasActivity && isCompleted) {
-          visibleCount++;
-        } else {
-          break;
-        }
-      }
-
-      return months.slice(0, visibleCount);
-    }
-
-    function isMonthCompleted(monthValue) {
-      return completedMonths.includes(monthValue);
-    }
-
-    function getActivitiesByMonth(monthValue) {
-      return savedActivities.filter(
-        activity =>
-          activity.planningMonth === monthValue
-      );
-    }
-
-    function renderMonthlyActivities() {
-      monthlyActivitiesContainer.innerHTML = "";
-
-      if (!selectedPlanningMonth) {
-        monthlyActivitiesContainer.innerHTML = `
-          <div class="empty-message">
-            Please select a Planning Month first.
-          </div>
-        `;
-        return;
-      }
-
-      const visibleMonths = getVisibleMonths();
-
-      visibleMonths.forEach((month, index) => {
-        const activities = getActivitiesByMonth(month.value);
-        const completed = isMonthCompleted(month.value);
-
-        const monthBox = document.createElement("div");
-        monthBox.className = "month-box";
-        monthBox.style.marginBottom = "20px";
-
-        monthBox.innerHTML = `
-          <div class="month-title">
-            <h3>${escapeHtml(month.label)}</h3>
-            <span class="month-status ${
-              completed ? "completed" : ""
-            }">
-              ${completed ? "Completed" : "In Progress"}
-            </span>
-          </div>
-
-          <div class="summary-box">
-            <div class="summary-item">
-              <div class="summary-label">Activities</div>
-              <div class="summary-value">
-                ${activities.length}
-              </div>
-            </div>
-
-            <div class="summary-item">
-              <div class="summary-label">Total Cost</div>
-              <div class="summary-value">
-                ${formatNumber(
-                  activities.reduce(
-                    (total, item) => total + Number(item.cost || 0),
-                    0
-                  )
-                )}
-              </div>
-            </div>
-
-            <div class="summary-item">
-              <div class="summary-label">Leads Target</div>
-              <div class="summary-value">
-                ${formatNumber(
-                  activities.reduce(
-                    (total, item) =>
-                      total + Number(item.leadsTarget || 0),
-                    0
-                  )
-                )}
-              </div>
-            </div>
-          </div>
-
-          <div class="activity-list" id="activity-list-${month.value}">
-            ${
-              activities.length === 0
-                ? `
-                  <div class="empty-message">
-                    No activities saved for this month.
-                  </div>
-                `
-                : ""
-            }
-          </div>
-
-          ${
-            completed
-              ? `
-                <div class="button-row">
-                  <button
-                    type="button"
-                    class="btn-secondary"
-                    onclick="openMonthForm('${month.value}')"
-                  >
-                    Add More Activity
-                  </button>
-                </div>
-              `
-              : `
-                <div class="button-row">
-                  <button
-                    type="button"
-                    class="btn-primary"
-                    onclick="openMonthForm('${month.value}')"
-                  >
-                    Add Activity for ${escapeHtml(month.label)}
-                  </button>
-
-                  <button
-                    type="button"
-                    class="btn-success"
-                    onclick="completeMonth('${month.value}')"
-                  >
-                    Finish Month & Continue
-                  </button>
-                </div>
-              `
-          }
-        `;
-
-        monthlyActivitiesContainer.appendChild(monthBox);
-
-        const listContainer = document.getElementById(
-          `activity-list-${month.value}`
-        );
-
-        activities.forEach(activity => {
-          listContainer.appendChild(
-            createActivityCard(activity)
-          );
-        });
       });
 
-      const allMonths = getPlanningMonths();
-
-      if (visibleMonths.length < allMonths.length) {
-        const nextMonth = allMonths[visibleMonths.length];
-
-        const lockedBox = document.createElement("div");
-        lockedBox.className = "month-box locked-month";
-
-        lockedBox.innerHTML = `
-          <div class="month-title">
-            <h3>${escapeHtml(nextMonth.label)}</h3>
-            <span class="month-status locked">
-              Locked
-            </span>
-          </div>
-
-          <div class="locked-message">
-            Complete the previous month before continuing
-            to ${escapeHtml(nextMonth.label)}.
-          </div>
-        `;
-
-        monthlyActivitiesContainer.appendChild(lockedBox);
-      }
+      planningMonthInput.value = START_MONTH;
     }
 
-    function createActivityCard(activity) {
-      const card = document.createElement("div");
-      card.className = "activity-card";
+    function addOption(selectElement, value, text) {
+      const option = document.createElement("option");
 
-      card.innerHTML = `
-        <div class="activity-card-header">
-          <div class="activity-card-title">
-            ${escapeHtml(activity.activityType)}
-          </div>
+      option.value = value;
+      option.textContent = text;
 
-          <div class="activity-card-actions">
-            <button
-              type="button"
-              class="btn-warning"
-              onclick="editActivity('${activity.id}')"
-            >
-              Edit
-            </button>
-
-            <button
-              type="button"
-              class="btn-danger"
-              onclick="deleteActivity('${activity.id}')"
-            >
-              Delete
-            </button>
-          </div>
-        </div>
-
-        <div class="activity-detail-grid">
-          <div class="detail-item">
-            <strong>Planning Month:</strong>
-            ${escapeHtml(getMonthLabel(activity.planningMonth))}
-          </div>
-
-          <div class="detail-item">
-            <strong>Region:</strong>
-            ${escapeHtml(activity.region)}
-          </div>
-
-          <div class="detail-item">
-            <strong>Partner:</strong>
-            ${escapeHtml(activity.partner)}
-          </div>
-
-          <div class="detail-item">
-            <strong>Activity Type:</strong>
-            ${escapeHtml(activity.activityType)}
-          </div>
-
-          <div class="detail-item">
-            <strong>Location:</strong>
-            ${escapeHtml(activity.location)}
-          </div>
-
-          <div class="detail-item">
-            <strong>Location Detail:</strong>
-            ${escapeHtml(activity.locationDetail || "-")}
-          </div>
-
-          <div class="detail-item">
-            <strong>Start Date:</strong>
-            ${escapeHtml(activity.startDate)}
-          </div>
-
-          <div class="detail-item">
-            <strong>End Date:</strong>
-            ${escapeHtml(activity.endDate)}
-          </div>
-
-          <div class="detail-item">
-            <strong>Cost:</strong>
-            ${formatNumber(activity.cost)}
-          </div>
-
-          <div class="detail-item">
-            <strong>Leads Target:</strong>
-            ${formatNumber(activity.leadsTarget)}
-          </div>
-
-          <div class="detail-item">
-            <strong>Test Drive Target:</strong>
-            ${formatNumber(activity.testDriveTarget)}
-          </div>
-
-          <div class="detail-item">
-            <strong>Booking Target:</strong>
-            ${formatNumber(activity.bookingTarget)}
-          </div>
-
-          <div class="detail-item full-width">
-            <strong>Remark:</strong>
-            ${escapeHtml(activity.remark || "-")}
-          </div>
-        </div>
-      `;
-
-      return card;
+      selectElement.appendChild(option);
     }
 
-    function openMonthForm(monthValue) {
-      selectedPlanningMonth = monthValue;
-      planningMonthInput.value = monthValue;
-
-      const [year, month] = monthValue
-        .split("-")
-        .map(Number);
-
-      const firstDay = `${year}-${String(month).padStart(2, "0")}-01`;
-
-      const lastDayDate = new Date(year, month, 0);
-
-      const lastDay =
-        lastDayDate.getFullYear() +
-        "-" +
-        String(lastDayDate.getMonth() + 1).padStart(2, "0") +
-        "-" +
-        String(lastDayDate.getDate()).padStart(2, "0");
-
-      startDateInput.min = firstDay;
-      startDateInput.max = lastDay;
-      endDateInput.min = firstDay;
-      endDateInput.max = lastDay;
-
-      resetActivityForm(false);
-
-      document
-        .querySelector(".section:nth-of-type(2)")
-        .scrollIntoView({
-          behavior: "smooth",
-          block: "start"
-        });
-    }
-
-    function completeMonth(monthValue) {
-      const activities = getActivitiesByMonth(monthValue);
-
-      if (activities.length === 0) {
-        showStatus(
-          "Please save at least one activity before completing this month.",
-          "error"
-        );
-        return;
-      }
-
-      if (!completedMonths.includes(monthValue)) {
-        completedMonths.push(monthValue);
-      }
-
-      saveToLocalStorage();
-      renderMonthlyActivities();
-
-      const months = getPlanningMonths();
-      const currentIndex = months.findIndex(
-        month => month.value === monthValue
-      );
-
-      if (currentIndex >= 0 && currentIndex < months.length - 1) {
-        const nextMonth = months[currentIndex + 1];
-
-        showStatus(
-          `${getMonthLabel(monthValue)} completed. ${getMonthLabel(
-            nextMonth.value
-          )} is now available.`,
-          "success"
-        );
-
-        openMonthForm(nextMonth.value);
-      } else {
-        showStatus(
-          `${getMonthLabel(monthValue)} completed successfully.`,
-          "success"
-        );
-      }
-    }
-
-    regionInput.addEventListener("change", function () {
+    function updatePartnerOptions() {
       const selectedRegion = regionInput.value;
 
       partnerInput.innerHTML =
@@ -1221,37 +1008,12 @@
         return;
       }
 
-      partnerData[selectedRegion].forEach(partner => {
-        const option = document.createElement("option");
-
-        option.value = partner;
-        option.textContent = partner;
-
-        partnerInput.appendChild(option);
+      partnerData[selectedRegion].forEach(function (partner) {
+        addOption(partnerInput, partner, partner);
       });
 
       partnerInput.disabled = false;
-    });
-
-    planningMonthInput.addEventListener("change", function () {
-      selectedPlanningMonth = planningMonthInput.value;
-
-      if (selectedPlanningMonth) {
-        openMonthForm(selectedPlanningMonth);
-      }
-
-      renderMonthlyActivities();
-    });
-
-    activityTypeInput.addEventListener(
-      "change",
-      updateLocationOptions
-    );
-
-    locationInput.addEventListener(
-      "change",
-      updateLocationDetail
-    );
+    }
 
     function updateLocationOptions() {
       const activityType = activityTypeInput.value;
@@ -1267,28 +1029,34 @@
         activityType === "Pop up/Roadshow" ||
         activityType === "Mini motor show"
       ) {
-        shoppingLocations.forEach(location => {
+        shoppingLocations.forEach(function (location) {
           addOption(locationInput, location, location);
         });
-      } else if (activityType === "Showroom event") {
+      }
+
+      else if (activityType === "Showroom event") {
         const selectedRegion = regionInput.value;
 
         if (selectedRegion && partnerData[selectedRegion]) {
-          partnerData[selectedRegion].forEach(partner => {
+          partnerData[selectedRegion].forEach(function (partner) {
             addOption(locationInput, partner, partner);
           });
         }
-      } else if (
-        activityType === "Test Drive/Outdoor event"
-      ) {
-        testDriveLocations.forEach(location => {
+      }
+
+      else if (activityType === "Test Drive/Outdoor event") {
+        testDriveLocations.forEach(function (location) {
           addOption(locationInput, location, location);
         });
-      } else if (activityType === "Online") {
-        onlineChannels.forEach(channel => {
+      }
+
+      else if (activityType === "Online") {
+        onlineChannels.forEach(function (channel) {
           addOption(locationInput, channel, channel);
         });
-      } else if (activityType === "Billboard") {
+      }
+
+      else if (activityType === "Billboard") {
         addOption(
           locationInput,
           "Billboard Location",
@@ -1319,13 +1087,17 @@
           locationDetailInput.required = true;
           locationDetailInput.placeholder =
             "Enter location";
-        } else if (location) {
+        }
+
+        else if (location) {
           locationDetailWrapper.classList.remove("hidden");
           locationDetailInput.required = true;
           locationDetailInput.placeholder =
             "Enter branch / area of the location";
         }
-      } else if (
+      }
+
+      else if (
         activityType === "Test Drive/Outdoor event" &&
         location === "Outdoor"
       ) {
@@ -1336,64 +1108,18 @@
       }
     }
 
-    function addOption(selectElement, value, text) {
-      const option = document.createElement("option");
+    function getFormData() {
+      return {
+        id:
+          editingIndex >= 0
+            ? savedActivities[editingIndex].id
+            : generateId(),
 
-      option.value = value;
-      option.textContent = text;
-
-      selectElement.appendChild(option);
-    }
-
-    activityForm.addEventListener("submit", function (event) {
-      event.preventDefault();
-
-      if (!regionInput.value || !partnerInput.value) {
-        showStatus(
-          "Please select Region and Partner first.",
-          "error"
-        );
-        return;
-      }
-
-      if (!selectedPlanningMonth) {
-        showStatus(
-          "Please select Planning Month first.",
-          "error"
-        );
-        return;
-      }
-
-      if (!activityForm.checkValidity()) {
-        activityForm.reportValidity();
-        return;
-      }
-
-      if (endDateInput.value < startDateInput.value) {
-        showStatus(
-          "End Date cannot be earlier than Start Date.",
-          "error"
-        );
-        return;
-      }
-
-      if (
-        startDateInput.value < startDateInput.min ||
-        endDateInput.value > endDateInput.max
-      ) {
-        showStatus(
-          "Activity dates must be within the selected planning month.",
-          "error"
-        );
-        return;
-      }
-
-      const activity = {
-        id: editingId || generateId(),
-        planningMonth: selectedPlanningMonth,
         region: regionInput.value,
         partner: partnerInput.value,
+        planningMonth: planningMonthInput.value,
         activityType: activityTypeInput.value,
+        activityName: activityTypeInput.value,
         location: locationInput.value,
         locationDetail: locationDetailInput.value,
         startDate: startDateInput.value,
@@ -1407,15 +1133,51 @@
         remark: remarkInput.value,
         updatedAt: new Date().toISOString()
       };
+    }
 
-      if (editingId) {
-        const index = savedActivities.findIndex(
-          item => item.id === editingId
+    function validateMonthDate(activity) {
+      if (activity.endDate < activity.startDate) {
+        showStatus(
+          "End Date cannot be earlier than Start Date.",
+          "error"
         );
 
-        if (index >= 0) {
-          savedActivities[index] = activity;
-        }
+        return false;
+      }
+
+      if (
+        activity.startDate.substring(0, 7) !==
+        activity.planningMonth
+      ) {
+        showStatus(
+          "Start Date must be within the selected Planning Month.",
+          "error"
+        );
+
+        return false;
+      }
+
+      return true;
+    }
+
+    activityForm.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      hideStatus();
+
+      if (!activityForm.checkValidity()) {
+        activityForm.reportValidity();
+        return;
+      }
+
+      const activity = getFormData();
+
+      if (!validateMonthDate(activity)) {
+        return;
+      }
+
+      if (editingIndex >= 0) {
+        savedActivities[editingIndex] = activity;
 
         showStatus(
           "Activity updated successfully.",
@@ -1431,104 +1193,44 @@
       }
 
       saveToLocalStorage();
-      renderMonthlyActivities();
-      resetActivityForm(false);
+      renderAll();
+      resetForm();
     });
 
-    cancelEditButton.addEventListener("click", function () {
-      resetActivityForm(false);
-    });
+    function resetForm() {
+      editingIndex = -1;
 
-    finishMonthButton.addEventListener("click", function () {
-      if (!selectedPlanningMonth) {
-        showStatus(
-          "Please select Planning Month first.",
-          "error"
-        );
-        return;
-      }
+      activityForm.reset();
 
-      completeMonth(selectedPlanningMonth);
-    });
+      planningMonthInput.value =
+        planningMonthInput.value || START_MONTH;
 
-    submitAllButton.addEventListener(
-      "click",
-      async function () {
-        if (savedActivities.length === 0) {
-          showStatus(
-            "Please save at least one activity before submitting.",
-            "error"
-          );
-          return;
-        }
+      locationInput.innerHTML =
+        '<option value="">Select Location</option>';
 
-        if (
-          !GOOGLE_SCRIPT_URL ||
-          GOOGLE_SCRIPT_URL ===
-            "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL"
-        ) {
-          showStatus(
-            "Please insert your Google Apps Script Web App URL first.",
-            "error"
-          );
-          return;
-        }
+      locationDetailWrapper.classList.add("hidden");
+      locationDetailInput.required = false;
 
-        const submissionData = {
-          submittedAt: new Date().toISOString(),
-          activities: savedActivities
-        };
+      editingLabel.classList.add("hidden");
+      cancelEditButton.classList.add("hidden");
 
-        submitAllButton.disabled = true;
-        submitAllButton.textContent = "Submitting...";
+      saveButton.textContent = "Save Activity";
 
-        try {
-          await fetch(GOOGLE_SCRIPT_URL, {
-            method: "POST",
-            mode: "no-cors",
-            headers: {
-              "Content-Type": "text/plain;charset=utf-8"
-            },
-            body: JSON.stringify(submissionData)
-          });
+      updateLocationOptions();
+    }
 
-          showStatus(
-            "Activities submitted successfully.",
-            "success"
-          );
-        } catch (error) {
-          console.error(error);
+    function editActivity(index) {
+      const activity = savedActivities[index];
 
-          showStatus(
-            "Unable to submit activities. Please check your Web App URL.",
-            "error"
-          );
-        } finally {
-          submitAllButton.disabled = false;
-          submitAllButton.textContent =
-            "Submit All Activities";
-        }
-      }
-    );
+      editingIndex = index;
 
-    window.editActivity = function (activityId) {
-      const activity = savedActivities.find(
-        item => item.id === activityId
-      );
-
-      if (!activity) return;
-
-      editingId = activityId;
-      selectedPlanningMonth = activity.planningMonth;
-
-      planningMonthInput.value = activity.planningMonth;
       regionInput.value = activity.region;
-
-      regionInput.dispatchEvent(new Event("change"));
+      updatePartnerOptions();
 
       partnerInput.value = activity.partner;
-
+      planningMonthInput.value = activity.planningMonth;
       activityTypeInput.value = activity.activityType;
+
       updateLocationOptions();
 
       locationInput.value = activity.location;
@@ -1545,125 +1247,400 @@
       bookingTargetInput.value = activity.bookingTarget;
       remarkInput.value = activity.remark || "";
 
-      setDateLimits(activity.planningMonth);
-
       editingLabel.classList.remove("hidden");
       cancelEditButton.classList.remove("hidden");
+
       saveButton.textContent = "Update Activity";
 
       window.scrollTo({
         top: 0,
         behavior: "smooth"
       });
-    };
+    }
 
-    window.deleteActivity = function (activityId) {
-      const activity = savedActivities.find(
-        item => item.id === activityId
-      );
-
-      if (!activity) return;
+    function deleteActivity(index) {
+      const activity = savedActivities[index];
 
       const confirmed = confirm(
-        `Delete activity "${activity.activityType}"?`
+        "Delete this activity?\n\n" +
+        activity.activityType +
+        " - " +
+        getMonthLabel(activity.planningMonth)
       );
 
-      if (!confirmed) return;
+      if (!confirmed) {
+        return;
+      }
 
-      savedActivities = savedActivities.filter(
-        item => item.id !== activityId
-      );
+      savedActivities.splice(index, 1);
 
       saveToLocalStorage();
-      renderMonthlyActivities();
-
-      if (editingId === activityId) {
-        resetActivityForm(false);
-      }
+      renderAll();
 
       showStatus(
         "Activity deleted successfully.",
         "success"
       );
-    };
-
-    window.openMonthForm = openMonthForm;
-    window.completeMonth = completeMonth;
-
-    function setDateLimits(monthValue) {
-      const [year, month] = monthValue
-        .split("-")
-        .map(Number);
-
-      const firstDay =
-        `${year}-${String(month).padStart(2, "0")}-01`;
-
-      const lastDayDate = new Date(year, month, 0);
-
-      const lastDay =
-        lastDayDate.getFullYear() +
-        "-" +
-        String(lastDayDate.getMonth() + 1).padStart(2, "0") +
-        "-" +
-        String(lastDayDate.getDate()).padStart(2, "0");
-
-      startDateInput.min = firstDay;
-      startDateInput.max = lastDay;
-      endDateInput.min = firstDay;
-      endDateInput.max = lastDay;
     }
 
-    function resetActivityForm(clearMonth = false) {
-      activityForm.reset();
+    function finishCurrentMonth() {
+      const selectedMonth = planningMonthInput.value;
 
-      editingId = null;
+      if (!selectedMonth) {
+        showStatus(
+          "Please select a Planning Month first.",
+          "error"
+        );
 
-      if (clearMonth) {
-        selectedPlanningMonth = "";
-        planningMonthInput.value = "";
+        return;
       }
 
-      if (selectedPlanningMonth) {
-        setDateLimits(selectedPlanningMonth);
+      const hasActivity = savedActivities.some(function (activity) {
+        return activity.planningMonth === selectedMonth;
+      });
+
+      if (!hasActivity) {
+        showStatus(
+          "Please save at least one activity for this month before continuing.",
+          "error"
+        );
+
+        return;
       }
 
-      locationInput.innerHTML =
-        '<option value="">Select Location</option>';
+      if (!completedMonths.includes(selectedMonth)) {
+        completedMonths.push(selectedMonth);
+      }
 
-      locationDetailWrapper.classList.add("hidden");
-      locationDetailInput.required = false;
+      saveToLocalStorage();
 
-      editingLabel.classList.add("hidden");
-      cancelEditButton.classList.add("hidden");
-      saveButton.textContent = "Save Activity";
-    }
+      const allMonths = getAllPlanningMonths();
+      const currentIndex = allMonths.findIndex(function (month) {
+        return month.value === selectedMonth;
+      });
 
-    function formatNumber(value) {
-      return Number(value || 0).toLocaleString("en-US");
-    }
+      if (
+        currentIndex >= 0 &&
+        currentIndex < allMonths.length - 1
+      ) {
+        planningMonthInput.value =
+          allMonths[currentIndex + 1].value;
 
-    function escapeHtml(value) {
-      return String(value ?? "")
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-    }
+        resetForm();
 
-    function showStatus(message, type) {
-      statusMessage.textContent = message;
-      statusMessage.className = "status-message";
-
-      if (type === "success") {
-        statusMessage.classList.add("status-success");
+        showStatus(
+          "Month completed. Planning moved to " +
+          getMonthLabel(planningMonthInput.value) +
+          ".",
+          "success"
+        );
       } else {
-        statusMessage.classList.add("status-error");
+        showStatus(
+          "All planning months have been completed.",
+          "success"
+        );
+      }
+
+      renderAll();
+    }
+
+    function renderAll() {
+      renderMonthlyActivities();
+      renderSummary();
+    }
+
+    function renderSummary() {
+      const totalActivities = savedActivities.length;
+
+      const totalCost = savedActivities.reduce(function (
+        total,
+        activity
+      ) {
+        return total + Number(activity.cost || 0);
+      }, 0);
+
+      const totalLeads = savedActivities.reduce(function (
+        total,
+        activity
+      ) {
+        return total + Number(activity.leadsTarget || 0);
+      }, 0);
+
+      const totalBookings = savedActivities.reduce(function (
+        total,
+        activity
+      ) {
+        return total + Number(activity.bookingTarget || 0);
+      }, 0);
+
+      totalActivitiesElement.textContent =
+        formatNumber(totalActivities);
+
+      totalCostElement.textContent =
+        formatNumber(totalCost);
+
+      totalLeadsElement.textContent =
+        formatNumber(totalLeads);
+
+      totalBookingsElement.textContent =
+        formatNumber(totalBookings);
+    }
+
+    function renderMonthlyActivities() {
+      monthlyActivitiesContainer.innerHTML = "";
+
+      const months = getAllPlanningMonths();
+
+      if (savedActivities.length === 0) {
+        monthlyActivitiesContainer.innerHTML =
+          '<div class="empty-message">No activities saved yet.</div>';
+
+        return;
+      }
+
+      months.forEach(function (month) {
+        const activities = savedActivities.filter(function (
+          activity
+        ) {
+          return activity.planningMonth === month.value;
+        });
+
+        const isCompleted =
+          completedMonths.includes(month.value);
+
+        const monthSection =
+          document.createElement("div");
+
+        monthSection.className = "month-section";
+
+        const statusText = isCompleted
+          ? "Completed"
+          : "Planning";
+
+        const statusClass = isCompleted
+          ? "month-status completed"
+          : "month-status";
+
+        monthSection.innerHTML = `
+          <div class="month-header">
+            <div class="month-title">
+              ${escapeHtml(month.label)}
+            </div>
+
+            <div class="${statusClass}">
+              ${statusText}
+            </div>
+          </div>
+
+          <div class="month-content">
+            ${
+              activities.length === 0
+                ? '<div class="empty-message">No activities planned for this month.</div>'
+                : ""
+            }
+          </div>
+        `;
+
+        const monthContent =
+          monthSection.querySelector(".month-content");
+
+        activities.forEach(function (activity) {
+          const index = savedActivities.indexOf(activity);
+
+          const card = document.createElement("div");
+          card.className = "activity-card";
+
+          card.innerHTML = `
+            <div class="activity-card-header">
+              <div class="activity-title">
+                ${escapeHtml(activity.activityType)}
+              </div>
+
+              <div class="activity-actions">
+                <button
+                  type="button"
+                  class="btn-warning"
+                  onclick="editActivity(${index})"
+                >
+                  Edit
+                </button>
+
+                <button
+                  type="button"
+                  class="btn-danger"
+                  onclick="deleteActivity(${index})"
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+
+            <div class="activity-detail-grid">
+              <div class="detail-item">
+                <strong>Region:</strong>
+                ${escapeHtml(activity.region)}
+              </div>
+
+              <div class="detail-item">
+                <strong>Partner:</strong>
+                ${escapeHtml(activity.partner)}
+              </div>
+
+              <div class="detail-item">
+                <strong>Location:</strong>
+                ${escapeHtml(activity.location)}
+              </div>
+
+              <div class="detail-item">
+                <strong>Location Detail:</strong>
+                ${escapeHtml(activity.locationDetail || "-")}
+              </div>
+
+              <div class="detail-item">
+                <strong>Start Date:</strong>
+                ${escapeHtml(activity.startDate)}
+              </div>
+
+              <div class="detail-item">
+                <strong>End Date:</strong>
+                ${escapeHtml(activity.endDate)}
+              </div>
+
+              <div class="detail-item">
+                <strong>Cost:</strong>
+                ${formatNumber(activity.cost)}
+              </div>
+
+              <div class="detail-item">
+                <strong>Leads Target:</strong>
+                ${formatNumber(activity.leadsTarget)}
+              </div>
+
+              <div class="detail-item">
+                <strong>Test Drive Target:</strong>
+                ${formatNumber(activity.testDriveTarget)}
+              </div>
+
+              <div class="detail-item">
+                <strong>Booking Target:</strong>
+                ${formatNumber(activity.bookingTarget)}
+              </div>
+
+              <div class="detail-item full-width">
+                <strong>Remark:</strong>
+                ${escapeHtml(activity.remark || "-")}
+              </div>
+            </div>
+          `;
+
+          monthContent.appendChild(card);
+        });
+
+        monthlyActivitiesContainer.appendChild(monthSection);
+      });
+    }
+
+    async function submitAllActivities() {
+      if (savedActivities.length === 0) {
+        showStatus(
+          "Please save at least one activity before submitting.",
+          "error"
+        );
+
+        return;
+      }
+
+      if (
+        !GOOGLE_SCRIPT_URL ||
+        GOOGLE_SCRIPT_URL ===
+          "YOUR_GOOGLE_APPS_SCRIPT_WEB_APP_URL"
+      ) {
+        showStatus(
+          "Please insert your Google Apps Script Web App URL first.",
+          "error"
+        );
+
+        return;
+      }
+
+      const submissionData = {
+        submittedAt: new Date().toISOString(),
+        totalActivities: savedActivities.length,
+        activities: savedActivities
+      };
+
+      submitAllButton.disabled = true;
+      submitAllButton.textContent = "Submitting...";
+
+      try {
+        await fetch(GOOGLE_SCRIPT_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8"
+          },
+          body: JSON.stringify(submissionData)
+        });
+
+        showStatus(
+          "All activities submitted successfully.",
+          "success"
+        );
+      } catch (error) {
+        console.error(error);
+
+        showStatus(
+          "Unable to submit activities. Please check your Web App URL.",
+          "error"
+        );
+      } finally {
+        submitAllButton.disabled = false;
+        submitAllButton.textContent =
+          "Submit All Activities";
       }
     }
+
+    regionInput.addEventListener(
+      "change",
+      updatePartnerOptions
+    );
+
+    activityTypeInput.addEventListener(
+      "change",
+      updateLocationOptions
+    );
+
+    locationInput.addEventListener(
+      "change",
+      updateLocationDetail
+    );
+
+    cancelEditButton.addEventListener(
+      "click",
+      resetForm
+    );
+
+    finishMonthButton.addEventListener(
+      "click",
+      finishCurrentMonth
+    );
+
+    submitAllButton.addEventListener(
+      "click",
+      submitAllActivities
+    );
+
+    planningMonthInput.addEventListener(
+      "change",
+      function () {
+        resetForm();
+        renderAll();
+      }
+    );
 
     populatePlanningMonths();
-    renderMonthlyActivities();
+    renderAll();
+    updateLocationOptions();
   </script>
 </body>
 </html>
