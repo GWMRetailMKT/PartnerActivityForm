@@ -1892,57 +1892,143 @@
     renderAll();
     updateLocationOptions();
 
-    // Embedded master data makes the dropdown work even if GitHub/CSV is unavailable.
-    // If mall-master.csv is available next to index.html, use its latest contents.
+    /*
+      Optional CSV refresh
+      ---------------------------------------------
+      The embedded Mall Master above is the safe default.
+      If mall-master.csv is available, load it only when
+      the file can be parsed correctly. This prevents a
+      malformed / differently structured CSV from replacing
+      the working Province -> Mall Chain -> Branch data.
+    */
+
+    function parseMallCsvLine(line, delimiter) {
+      const values = [];
+      let current = "";
+      let quoted = false;
+
+      for (let i = 0; i < line.length; i++) {
+        const ch = line[i];
+
+        if (ch === '"') {
+          if (quoted && line[i + 1] === '"') {
+            current += '"';
+            i++;
+          } else {
+            quoted = !quoted;
+          }
+        } else if (ch === delimiter && !quoted) {
+          values.push(current.trim());
+          current = "";
+        } else {
+          current += ch;
+        }
+      }
+
+      values.push(current.trim());
+      return values;
+    }
+
+    function parseMallMasterCsv(text) {
+      const lines = text
+        .replace(/^\uFEFF/, "")
+        .split(/\r?\n/)
+        .filter(function(line) {
+          return line.trim() !== "";
+        });
+
+      if (lines.length < 2) return [];
+
+      const commaHeaders = parseMallCsvLine(lines[0], ",")
+        .map(function(value) {
+          return String(value || "")
+            .replace(/^\uFEFF/, "")
+            .trim()
+            .replace(/^["']|["']$/g, "")
+            .toLowerCase();
+        });
+
+      const tabHeaders = parseMallCsvLine(lines[0], "\t")
+        .map(function(value) {
+          return String(value || "")
+            .replace(/^\uFEFF/, "")
+            .trim()
+            .replace(/^["']|["']$/g, "")
+            .toLowerCase();
+        });
+
+      const hasRequiredHeaders = function(headers) {
+        return (
+          headers.indexOf("province") !== -1 &&
+          headers.indexOf("mall chain") !== -1 &&
+          headers.indexOf("branch") !== -1
+        );
+      };
+
+      let delimiter = ",";
+      let headers = commaHeaders;
+
+      if (!hasRequiredHeaders(commaHeaders) && hasRequiredHeaders(tabHeaders)) {
+        delimiter = "\t";
+        headers = tabHeaders;
+      }
+
+      let provinceIndex = headers.indexOf("province");
+      let chainIndex = headers.indexOf("mall chain");
+      let branchIndex = headers.indexOf("branch");
+      let startIndex = 1;
+
+      /*
+        If the CSV has no header but is exactly:
+        Province, Mall Chain, Branch
+        support that format as well.
+      */
+      if (!hasRequiredHeaders(headers)) {
+        const firstRow = parseMallCsvLine(lines[0], delimiter);
+        if (firstRow.length === 3) {
+          provinceIndex = 0;
+          chainIndex = 1;
+          branchIndex = 2;
+          startIndex = 0;
+        } else {
+          return [];
+        }
+      }
+
+      const rows = lines.slice(startIndex).map(function(line) {
+        const values = parseMallCsvLine(line, delimiter);
+
+        return {
+          province: String(values[provinceIndex] || "").trim(),
+          mallChain: String(values[chainIndex] || "").trim(),
+          branch: String(values[branchIndex] || "").trim()
+        };
+      }).filter(function(row) {
+        return row.province && row.mallChain && row.branch;
+      });
+
+      return rows;
+    }
+
     fetch(MALL_DATA_URL + "?v=" + Date.now(), { cache: "no-store" })
       .then(function(response) {
         if (!response.ok) throw new Error("HTTP " + response.status);
         return response.text();
       })
       .then(function(text) {
-        const lines = text.replace(/^\uFEFF/, "").trim().split(/\r?\n/);
-        if (lines.length < 2) throw new Error("CSV has no data rows.");
+        const parsed = parseMallMasterCsv(text);
 
-        const parsed = lines.slice(1).map(function(line) {
-          const values = [];
-          let current = "";
-          let quoted = false;
-
-          for (let i = 0; i < line.length; i++) {
-            const ch = line[i];
-            if (ch === '"') {
-              if (quoted && line[i + 1] === '"') {
-                current += '"';
-                i++;
-              } else {
-                quoted = !quoted;
-              }
-            } else if (ch === "," && !quoted) {
-              values.push(current.trim());
-              current = "";
-            } else {
-              current += ch;
-            }
-          }
-          values.push(current.trim());
-
-          return {
-            province: values[0] || "",
-            mallChain: values[1] || "",
-            branch: values[2] || ""
-          };
-        }).filter(function(row) {
-          return row.province || row.mallChain || row.branch;
-        });
-
-        if (parsed.length) {
+        /* Only replace the embedded master when the CSV is valid. */
+        if (parsed.length > 0) {
           mallMasterData = parsed;
           populateMallProvinces();
-          console.log("Latest mall-master.csv loaded:", parsed.length, "rows");
+          console.log("Mall Master CSV loaded correctly:", parsed.length, "rows");
+        } else {
+          console.warn("Mall Master CSV format not recognized. Keeping embedded data.");
         }
       })
       .catch(function(error) {
-        console.warn("Using embedded Mall Master data because CSV could not be loaded:", error);
+        console.warn("Keeping embedded Mall Master data:", error);
       });
 
   </script>
